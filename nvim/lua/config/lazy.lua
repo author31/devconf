@@ -25,6 +25,7 @@ vim.g.maplocalleader = "\\"
 require("lazy").setup {
   spec = {
     { import = "plugins" },
+    { "bwpge/lazy-events.nvim", version = "*" },
     {
       "nvim-neorg/neorg",
       -- lazy-load on filetype
@@ -33,76 +34,6 @@ require("lazy").setup {
       opts = {
         load = {
           ["core.defaults"] = {},
-        },
-      },
-    },
-    {
-      "nvim-telescope/telescope.nvim",
-      tag = "0.1.5",
-      dependencies = {
-        "nvim-lua/plenary.nvim",
-        {
-          "nvim-telescope/telescope-fzf-native.nvim",
-          build = "make",
-        },
-      },
-      config = function()
-        local telescope = require "telescope"
-        local builtin = require "telescope.builtin"
-
-        -- Basic telescope configuration
-        telescope.setup {
-          defaults = {
-            file_ignore_patterns = {
-              "node_modules",
-              ".git",
-            },
-            mappings = {
-              i = {
-                ["<C-j>"] = "move_selection_next",
-                ["<C-k>"] = "move_selection_previous",
-              },
-            },
-          },
-          pickers = {
-            find_files = {
-              hidden = true,
-            },
-          },
-        }
-
-        -- Enable fzf native
-        telescope.load_extension "fzf"
-
-        -- Keymaps
-        vim.keymap.set("n", "<leader><leader>", builtin.find_files, { desc = "Find files" })
-        vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Live grep" })
-        vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Find buffers" })
-        vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Help tags" })
-      end,
-    },
-    {
-      "stevearc/conform.nvim",
-      event = { "BufWritePre" },
-      cmd = { "ConformInfo" },
-      keys = {
-        {
-          -- Customize the keymap if you want to trigger formatting manually
-          "<leader>f",
-          function() require("conform").format { async = true, lsp_fallback = true } end,
-          mode = "",
-          desc = "Format buffer",
-        },
-      },
-      opts = {
-        formatters_by_ft = {
-          lua = { "stylua" },
-          python = { "black", "ruff_format" },
-        },
-        -- Set up format-on-save
-        format_on_save = {
-          timeout_ms = 500,
-          lsp_fallback = true,
         },
       },
     },
@@ -129,6 +60,8 @@ require("lazy").setup {
       "hrsh7th/cmp-buffer",
     },
   },
+  "williamboman/mason-lspconfig.nvim",
+  "neovim/nvim-lspconfig",
 
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
