@@ -3,40 +3,74 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
-    config = function()
-      require("nvim-treesitter.configs").setup {
-        -- List of parsers to ensure are installed
-        ensure_installed = {
-          "c",
-          "lua",
-          "vim",
-          "vimdoc",
-          "query",
-          "javascript",
-          "html",
-          "python",
+    event = { "BufReadPost", "BufNewFile" },
+    cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter-textobjects",
+    },
+    keys = {
+      { "<c-space>", desc = "Increment Selection" },
+      { "<bs>", desc = "Decrement Selection", mode = "x" },
+    },
+    opts_extend = { "ensure_installed" },
+    opts = {
+      highlight = { enable = true },
+      indent = { enable = true },
+      ensure_installed = {
+        "bash",
+        "c",
+        "diff",
+        "html",
+        "javascript",
+        "jsdoc",
+        "json",
+        "jsonc",
+        "lua",
+        "luadoc",
+        "luap",
+        "markdown",
+        "markdown_inline",
+        "printf",
+        "python",
+        "query",
+        "regex",
+        "toml",
+        "tsx",
+        "typescript",
+        "vim",
+        "vimdoc",
+        "xml",
+        "yaml",
+      },
+      -- Automatically install missing parsers when entering a buffer
+      auto_install = true,
+      -- Install parsers synchronously (only applied to `ensure_installed`)
+      sync_install = false,
+      -- Enable incremental selection
+      incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection = "<C-space>",
+          node_incremental = "<C-space>",
+          scope_incremental = false,
+          node_decremental = "<bs>",
         },
-        -- Install parsers synchronously (only applied to `ensure_installed`)
-        sync_install = false,
-        -- Automatically install missing parsers when entering a buffer
-        auto_install = true,
-        -- Enable syntax highlighting
-        highlight = {
+      },
+      -- Enable text objects for better navigation
+      textobjects = {
+        move = {
           enable = true,
-          -- Disable for large files to improve performance
-          disable = function(lang, buf)
-            local max_filesize = 100 * 1024 -- 100 KB
-            local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-            if ok and stats and stats.size > max_filesize then return true end
-          end,
-          -- Use treesitter for `=` operator indentation
-          additional_vim_regex_highlighting = false,
+          goto_next_start = { ["]f"] = "@function.outer", ["]c"] = "@class.outer", ["]a"] = "@parameter.inner" },
+          goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer", ["]A"] = "@parameter.inner" },
+          goto_previous_start = { ["[f"] = "@function.outer", ["[c"] = "@class.outer", ["[a"] = "@parameter.inner" },
+          goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer", ["[A"] = "@parameter.inner" },
         },
-        -- Enable indentation
-        indent = {
-          enable = true,
-        },
-      }
+      },
+    },
+    ---@param opts TSConfig
+    config = function(_, opts)
+      require("nvim-treesitter.configs").setup(opts)
     end,
   },
 }
+
