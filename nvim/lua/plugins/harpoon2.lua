@@ -19,15 +19,6 @@ return {
       { desc = "Toggle Harpoon Quick Menu" }
     )
 
-    -- Navigate to files 1 through 4 in Harpoon list
-    vim.keymap.set("n", "<C-h>", function() harpoon:list():select(1) end, { desc = "Go to Harpoon file 1" })
-
-    vim.keymap.set("n", "<C-t>", function() harpoon:list():select(2) end, { desc = "Go to Harpoon file 2" })
-
-    vim.keymap.set("n", "<C-n>", function() harpoon:list():select(3) end, { desc = "Go to Harpoon file 3" })
-
-    vim.keymap.set("n", "<C-s>", function() harpoon:list():select(4) end, { desc = "Go to Harpoon file 4" })
-
     -- Optional: Telescope integration for Harpoon
     local conf = require("telescope.config").values
     local function toggle_telescope(harpoon_files)

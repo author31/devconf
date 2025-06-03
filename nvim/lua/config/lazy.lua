@@ -63,9 +63,6 @@ require("lazy").setup {
   "williamboman/mason-lspconfig.nvim",
   "neovim/nvim-lspconfig",
 
-  -- Configure any other settings here. See the documentation for more details.
-  -- colorscheme that will be used when installing plugins.
-  install = { colorscheme = { "habamax" } },
   -- automatically check for plugin updates
   checker = { enabled = true },
 }
@@ -77,6 +74,19 @@ vim.opt.tabstop = 4 -- Width of tab character
 vim.opt.softtabstop = 4 -- Fine-tunes the amount of whitespace to be added
 vim.opt.shiftwidth = 4 -- Width of indentation
 vim.opt.expandtab = true -- Convert tabs to spaces
+vim.opt.autoread = true
+vim.g.clipboard = {
+  name = "OSC52",
+  copy = {
+    ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+    ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+  },
+  paste = {
+    ["+"] = require("vim.ui.clipboard.osc52").paste("+"),
+    ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+  },
+}
+
 
 -- Enable relative line numbers
 vim.opt.number = true -- Show current line number
