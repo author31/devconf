@@ -7,5 +7,8 @@ return {
         ---@module 'render-markdown'
         ---@type render.md.UserConfig
         opts = {},
+        keys = {
+            { '<leader>mt', ':RenderMarkdown toggle<CR>', desc = 'Toggle RenderMarkdown' }
+        }
     }
 }

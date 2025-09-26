@@ -1,7 +1,6 @@
 return {
   "lewis6991/gitsigns.nvim",
-  config = function()
-    require("gitsigns").setup {
+  opts = {
       signs = {
         add = { text = "┃" },
         change = { text = "┃" },
@@ -83,7 +82,8 @@ return {
         map("n", "<leader>ghS", gs.stage_buffer, { desc = "Stage Buffer" })
         map("n", "<leader>ghu", gs.undo_stage_hunk, { desc = "Undo Stage Hunk" })
         map("n", "<leader>ghR", gs.reset_buffer, { desc = "Reset Buffer" })
-        map("n", "<leader>ghp", gs.preview_hunk_inline, { desc = "Preview Hunk Inline" })
+        map("n", "<leader>gp", gs.preview_hunk, { desc = "Preview Hunk Inline" })
+        map("n", "<leader>gt", gs.toggle_current_line_blame, { desc = "Toggle Current Line Blame" })
         map("n", "<leader>gb", function() gs.blame_line({ full = true }) end, { desc = "Blame Line" })
         map("n", "<leader>gB", function() gs.blame() end, { desc = "Blame Buffer" })
         map("n", "<leader>gd", gs.diffthis, { desc = "Diff This" })
@@ -91,6 +91,5 @@ return {
         map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "GitSigns Select Hunk" })
       end,
     }
-  end,
 }
 
